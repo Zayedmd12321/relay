@@ -8,6 +8,23 @@ export interface User {
   role: UserRole;
 }
 
+// Notification Types
+export type NotificationType = 'NEW_QUERY' | 'QUERY_ASSIGNED' | 'QUERY_ANSWERED' | 'QUERY_DISMANTLED';
+
+export interface Notification {
+  _id: string;
+  user: string;
+  message: string;
+  type: NotificationType;
+  query: {
+    _id: string;
+    title: string;
+    status: QueryStatus;
+  };
+  isRead: boolean;
+  createdAt: string;
+}
+
 // Query Types
 export type QueryStatus = 'UNASSIGNED' | 'REQUESTED' | 'ASSIGNED' | 'RESOLVED' | 'DISMANTLED';
 

@@ -258,3 +258,128 @@ exports.sendEmail = async (options) => {
     throw error;
   }
 };
+
+// Send email to admin when new query is created
+exports.sendNewQueryToAdminEmail = async (query, admins) => {
+  try {
+    const transporter = createTransporter();
+    
+    const adminEmails = admins.map(admin => admin.email).join(',');
+
+    const mailOptions = {
+      from: process.env.GMAIL,
+      to: adminEmails,
+      subject: `New Query Submitted - "${query.title}"`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+          <h2 style="color: #007bff;">New Query Submitted</h2>
+          <p>Hello Admin,</p>
+          
+          <p>A new query has been submitted and requires your attention.</p>
+          
+          <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #495057;">Query Details:</h3>
+            <p><strong>Title:</strong> ${query.title}</p>
+            <p><strong>Description:</strong> ${query.description}</p>
+            <p><strong>Created By:</strong> ${query.createdBy.name} (${query.createdBy.email})</p>
+            <p><strong>Status:</strong> <span style="color: #ffc107;">UNASSIGNED</span></p>
+          </div>
+          
+          <p>Please log in to the system to assign this query to a team head.</p>
+          
+          <hr style="border: none; border-top: 1px solid #dee2e6; margin: 20px 0;">
+          
+          <p style="font-size: 12px; color: #6c757d;">
+            This is an automated message from Query Management System. Please do not reply to this email.
+          </p>
+        </div>
+      `,
+      text: `
+        New Query Submitted
+        
+        Hello Admin,
+        
+        A new query has been submitted and requires your attention.
+        
+        Query Details:
+        Title: ${query.title}
+        Description: ${query.description}
+        Created By: ${query.createdBy.name} (${query.createdBy.email})
+        Status: UNASSIGNED
+        
+        Please log in to the system to assign this query to a team head.
+        
+        This is an automated message from Query Management System.
+      `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('New query email sent to admins:', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('Error sending new query email to admin:', error.message);
+    throw error;
+  }
+};
+
+// Send email to team head when query is assigned
+exports.sendQueryAssignedEmail = async (query, teamHead) => {
+  try {
+    const transporter = createTransporter();
+
+    const mailOptions = {
+      from: process.env.GMAIL,
+      to: teamHead.email,
+      subject: `Query Assigned to You - "${query.title}"`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+          <h2 style="color: #28a745;">Query Assigned to You</h2>
+          <p>Hello <strong>${teamHead.name}</strong>,</p>
+          
+          <p>A new query has been assigned to you for resolution.</p>
+          
+          <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #495057;">Query Details:</h3>
+            <p><strong>Title:</strong> ${query.title}</p>
+            <p><strong>Description:</strong> ${query.description}</p>
+            <p><strong>Created By:</strong> ${query.createdBy.name} (${query.createdBy.email})</p>
+            <p><strong>Status:</strong> <span style="color: #28a745;">ASSIGNED</span></p>
+          </div>
+          
+          <p>Please log in to the system to view and resolve this query.</p>
+          
+          <hr style="border: none; border-top: 1px solid #dee2e6; margin: 20px 0;">
+          
+          <p style="font-size: 12px; color: #6c757d;">
+            This is an automated message from Query Management System. Please do not reply to this email.
+          </p>
+        </div>
+      `,
+      text: `
+        Query Assigned to You
+        
+        Hello ${teamHead.name},
+        
+        A new query has been assigned to you for resolution.
+        
+        Query Details:
+        Title: ${query.title}
+        Description: ${query.description}
+        Created By: ${query.createdBy.name} (${query.createdBy.email})
+        Status: ASSIGNED
+        
+        Please log in to the system to view and resolve this query.
+        
+        This is an automated message from Query Management System.
+      `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Query assignment email sent to team head:', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('Error sending query assignment email:', error.message);
+    throw error;
+  }
+};
+

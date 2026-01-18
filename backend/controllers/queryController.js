@@ -1,6 +1,7 @@
 const Query = require('../models/Query');
 const User = require('../models/User');
-const { sendQueryAnswerEmail, sendQueryDismantledEmail } = require('../utils/emailService');
+const { sendQueryAnswerEmail, sendQueryDismantledEmail, sendNewQueryToAdminEmail, sendQueryAssignedEmail } = require('../utils/emailService');
+const { createNotification } = require('./notificationController');
 
 // @desc    Create a new query
 // @route   POST /api/queries
@@ -24,6 +25,26 @@ exports.createQuery = async (req, res) => {
     });
 
     await query.populate('createdBy', 'name email role');
+
+    // Notify all admins about the new query
+    const admins = await User.find({ role: 'Admin' });
+    
+    // Send email to all admins
+    try {
+      await sendNewQueryToAdminEmail(query, admins);
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError.message);
+    }
+
+    // Create notification for each admin
+    for (const admin of admins) {
+      await createNotification(
+        admin._id,
+        `New query submitted: "${query.title}"`,
+        'NEW_QUERY',
+        query._id
+      );
+    }
 
     res.status(201).json({
       success: true,
@@ -207,6 +228,21 @@ exports.assignQuery = async (req, res) => {
     await query.populate('createdBy', 'name email role');
     await query.populate('assignedTo', 'name email role');
 
+    // Send email to the team head
+    try {
+      await sendQueryAssignedEmail(query, teamHead);
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError.message);
+    }
+
+    // Create notification for the team head
+    await createNotification(
+      teamHead._id,
+      `Query assigned to you: "${query.title}"`,
+      'QUERY_ASSIGNED',
+      query._id
+    );
+
     res.status(200).json({
       success: true,
       message: 'Query assigned successfully',
@@ -279,6 +315,14 @@ exports.answerQuery = async (req, res) => {
       console.error('Email sending failed:', emailError.message);
       // Continue even if email fails
     }
+
+    // Create notification for the participant
+    await createNotification(
+      query.createdBy._id,
+      `Your query has been answered: "${query.title}"`,
+      'QUERY_ANSWERED',
+      query._id
+    );
 
     res.status(200).json({
       success: true,
@@ -367,6 +411,14 @@ exports.dismantleQuery = async (req, res) => {
       console.error('Email sending failed:', emailError.message);
       // Continue even if email fails
     }
+
+    // Create notification for the participant
+    await createNotification(
+      query.createdBy._id,
+      `Your query has been dismantled: "${query.title}"`,
+      'QUERY_DISMANTLED',
+      query._id
+    );
 
     res.status(200).json({
       success: true,

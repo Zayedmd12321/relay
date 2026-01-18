@@ -6,6 +6,7 @@ const connectDatabase = require('./config/database');
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const queryRoutes = require('./routes/queryRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 // Initialize express app
 const app = express();
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/queries', queryRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

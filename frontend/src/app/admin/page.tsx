@@ -80,30 +80,56 @@ export default function AdminPage() {
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    
+    // Optimistic UI: Add user immediately
+    const tempUser = {
+      _id: 'temp-' + Date.now(),
+      name: formData.name,
+      email: formData.email,
+      role: formData.role,
+    };
+    
+    const previousUsers = [...users];
+    setUsers(prev => [...prev, tempUser]);
+    setShowAddModal(false);
+    toast.success(`${formData.role} added successfully`);
+    const formDataCopy = { ...formData };
+    setFormData({ name: '', email: '', password: '', role: 'Team_Head' });
+    setSubmitting(false);
+    
     try {
-      await axios.post('/auth/users', formData);
-      toast.success(`${formData.role} added successfully`);
-      setShowAddModal(false);
-      setFormData({ name: '', email: '', password: '', role: 'Team_Head' });
-      fetchUsers();
-      fetchTeamStats();
+      await axios.post('/auth/users', formDataCopy);
+      // Refresh to get accurate data with real IDs
+      await fetchUsers();
+      await fetchTeamStats();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to add user');
-    } finally {
-      setSubmitting(false);
+      // Revert on error
+      setUsers(previousUsers);
+      toast.error(error.response?.data?.message || 'Failed to add user. Please try again.');
     }
   };
 
   const handleDeleteUser = async (userId: string, userName: string, userRole: string) => {
     if (!confirm(`Are you sure you want to delete ${userName}?`)) return;
 
+    // Optimistic UI: Remove user immediately
+    const previousUsers = [...users];
+    const previousTeamStats = [...teamStats];
+    
+    setUsers(prev => prev.filter(u => u._id !== userId));
+    setTeamStats(prev => prev.filter(ts => ts._id !== userId));
+    toast.success(`${userRole} deleted successfully`);
+    
     try {
       await axios.delete(`/auth/users/${userId}`);
-      toast.success(`${userRole} deleted successfully`);
-      fetchUsers();
-      fetchTeamStats();
+      // Refresh to get accurate data
+      await fetchUsers();
+      await fetchTeamStats();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to delete user');
+      // Revert on error
+      setUsers(previousUsers);
+      setTeamStats(previousTeamStats);
+      toast.error(error.response?.data?.message || 'Failed to delete user. Please try again.');
     }
   };
 

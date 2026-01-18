@@ -71,18 +71,38 @@ export default function QueryDetailsPage() {
       return;
     }
     setSubmitting(true);
+    
+    // Optimistic UI: Update query immediately
+    const previousQuery = query;
+    if (query) {
+      setQuery({
+        ...query,
+        status: 'RESOLVED',
+        answer: answer,
+        resolvedBy: {
+          _id: user!.id,
+          name: user!.name,
+          email: user!.email,
+          role: user!.role,
+        }
+      });
+    }
+    
+    setShowAnswerModal(false);
+    setAnswer('');
+    toast.success('Query resolved successfully');
+    setSubmitting(false);
+    
     try {
       const res = await axiosInstance.patch(`/queries/${queryId}/answer`, { answer });
       if (res.data.success) {
-        toast.success('Query resolved successfully');
-        setShowAnswerModal(false);
-        setAnswer('');
-        fetchQuery();
+        // Update with server response
+        setQuery(res.data.data.query);
       }
     } catch (e) {
-      toast.error('Failed to resolve query');
-    } finally {
-      setSubmitting(false);
+      // Revert on error
+      setQuery(previousQuery);
+      toast.error('Failed to resolve query. Please try again.');
     }
   };
 
@@ -92,18 +112,32 @@ export default function QueryDetailsPage() {
       return;
     }
     setSubmitting(true);
+    
+    // Optimistic UI: Update query immediately
+    const previousQuery = query;
+    if (query) {
+      setQuery({
+        ...query,
+        status: 'DISMANTLED',
+        dismantledReason: dismantleReason,
+      });
+    }
+    
+    setShowDismantleModal(false);
+    setDismantleReason('');
+    toast.success('Query dismantled');
+    setSubmitting(false);
+    
     try {
       const res = await axiosInstance.patch(`/queries/${queryId}/dismantle`, { reason: dismantleReason });
       if (res.data.success) {
-        toast.success('Query dismantled');
-        setShowDismantleModal(false);
-        setDismantleReason('');
-        fetchQuery();
+        // Update with server response
+        setQuery(res.data.data.query);
       }
     } catch (e: any) {
-      toast.error(e.response?.data?.message || 'Failed to dismantle');
-    } finally {
-      setSubmitting(false);
+      // Revert on error
+      setQuery(previousQuery);
+      toast.error(e.response?.data?.message || 'Failed to dismantle. Please try again.');
     }
   };
 
@@ -113,21 +147,41 @@ export default function QueryDetailsPage() {
       return;
     }
     setSubmitting(true);
+    
+    const selectedHead = teamHeads.find(th => th._id === selectedTeamHead);
+    
+    // Optimistic UI: Update query immediately
+    const previousQuery = query;
+    if (query && selectedHead) {
+      setQuery({
+        ...query,
+        assignedTo: {
+          _id: selectedHead._id,
+          name: selectedHead.name,
+          email: selectedHead.email,
+          role: 'Team_Head',
+        }
+      });
+    }
+    
+    setShowReassignModal(false);
+    setSelectedTeamHead('');
+    toast.success('Query reassigned successfully');
+    setSubmitting(false);
+    
     try {
       const res = await axiosInstance.patch(`/queries/${queryId}/reassign`, { 
         teamHeadId: selectedTeamHead 
       });
       if (res.data.success) {
-        toast.success('Query reassigned successfully');
-        setShowReassignModal(false);
-        setSelectedTeamHead('');
-        fetchQuery();
+        // Update with server response
+        setQuery(res.data.data.query);
         fetchTeamHeads();
       }
     } catch (e: any) {
-      toast.error(e.response?.data?.message || 'Failed to reassign query');
-    } finally {
-      setSubmitting(false);
+      // Revert on error
+      setQuery(previousQuery);
+      toast.error(e.response?.data?.message || 'Failed to reassign query. Please try again.');
     }
   };
 

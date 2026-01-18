@@ -56,15 +56,42 @@ export default function DashboardPage() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Optimistic UI: Create temporary query
+    const tempQuery: Query = {
+      _id: 'temp-' + Date.now(),
+      title: createForm.title,
+      description: createForm.description,
+      status: 'UNASSIGNED',
+      createdBy: {
+        _id: user!.id,
+        name: user!.name,
+        email: user!.email,
+        role: user!.role,
+      },
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    
+    // Show immediately in UI
+    setQueries(prev => [tempQuery, ...prev]);
+    setShowCreateModal(false);
+    toast.success('Query created');
+    setCreateForm({ title: '', description: '' });
+    
     try {
       const res = await axiosInstance.post('/queries', createForm);
       if (res.data.success) {
-        toast.success('Query created');
-        setShowCreateModal(false);
-        setCreateForm({ title: '', description: '' });
-        fetchQueries();
+        // Replace temp query with real one from server
+        setQueries(prev => prev.map(q => 
+          q._id === tempQuery._id ? res.data.data.query : q
+        ));
       }
-    } catch (e) { toast.error('Failed to create'); }
+    } catch (e) {
+      // Revert on error
+      setQueries(prev => prev.filter(q => q._id !== tempQuery._id));
+      toast.error('Failed to create query. Please try again.');
+    }
   };
 
   const fetchTeamHeads = async () => {
@@ -93,15 +120,44 @@ export default function DashboardPage() {
       toast.error('Please select a Team Head');
       return;
     }
+    
+    const selectedHead = teamHeads.find(th => th._id === selectedTeamHead);
+    if (!selectedHead) return;
+    
+    // Optimistic UI: Update query immediately
+    const previousQueries = [...queries];
+    setQueries(prev => prev.map(q => 
+      q._id === selectedQuery._id 
+        ? { 
+            ...q, 
+            status: 'ASSIGNED' as const,
+            assignedTo: {
+              _id: selectedHead._id,
+              name: selectedHead.name,
+              email: selectedHead.email,
+              role: 'Team_Head' as const,
+            }
+          } 
+        : q
+    ));
+    
+    setShowAssignModal(false);
+    setSelectedTeamHead('');
+    toast.success('Assigned successfully');
+    
     try {
       const res = await axiosInstance.patch(`/queries/${selectedQuery._id}/assign`, { teamHeadId: selectedTeamHead });
       if (res.data.success) {
-        toast.success('Assigned successfully');
-        setShowAssignModal(false);
-        setSelectedTeamHead('');
-        fetchQueries();
+        // Update with server response
+        setQueries(prev => prev.map(q => 
+          q._id === selectedQuery._id ? res.data.data.query : q
+        ));
       }
-    } catch (e) { toast.error('Failed to assign'); }
+    } catch (e) {
+      // Revert on error
+      setQueries(previousQueries);
+      toast.error('Failed to assign. Please try again.');
+    }
   };
 
   const openResolveModal = (query: Query) => {
@@ -116,18 +172,42 @@ export default function DashboardPage() {
       return;
     }
     setSubmitting(true);
+    
+    // Optimistic UI: Update query immediately
+    const previousQueries = [...queries];
+    setQueries(prev => prev.map(q => 
+      q._id === selectedQuery._id 
+        ? { 
+            ...q, 
+            status: 'RESOLVED' as const,
+            answer: answer,
+            resolvedBy: {
+              _id: user!.id,
+              name: user!.name,
+              email: user!.email,
+              role: user!.role,
+            }
+          } 
+        : q
+    ));
+    
+    setShowResolveModal(false);
+    setAnswer('');
+    toast.success('Query resolved successfully');
+    setSubmitting(false);
+    
     try {
       const res = await axiosInstance.patch(`/queries/${selectedQuery._id}/answer`, { answer });
       if (res.data.success) {
-        toast.success('Query resolved successfully');
-        setShowResolveModal(false);
-        setAnswer('');
-        fetchQueries();
+        // Update with server response
+        setQueries(prev => prev.map(q => 
+          q._id === selectedQuery._id ? res.data.data.query : q
+        ));
       }
     } catch (e) {
-      toast.error('Failed to resolve query');
-    } finally {
-      setSubmitting(false);
+      // Revert on error
+      setQueries(previousQueries);
+      toast.error('Failed to resolve query. Please try again.');
     }
   };
 
@@ -146,14 +226,38 @@ export default function DashboardPage() {
 
   const handleRequest = async (query: Query) => {
     if (!confirm(`Request to be assigned "${query.title}"?`)) return;
+    
+    // Optimistic UI: Update query immediately
+    const previousQueries = [...queries];
+    setQueries(prev => prev.map(q => 
+      q._id === query._id 
+        ? { 
+            ...q, 
+            status: 'ASSIGNED' as const,
+            assignedTo: {
+              _id: user!.id,
+              name: user!.name,
+              email: user!.email,
+              role: user!.role,
+            }
+          } 
+        : q
+    ));
+    
+    toast.success('Query assigned to you!');
+    
     try {
       const res = await axiosInstance.patch(`/queries/${query._id}/request`);
       if (res.data.success) {
-        toast.success('Query assigned to you!');
-        fetchQueries();
+        // Update with server response
+        setQueries(prev => prev.map(q => 
+          q._id === query._id ? res.data.data.query : q
+        ));
       }
     } catch (e: any) {
-      toast.error(e.response?.data?.message || 'Failed to request query');
+      // Revert on error
+      setQueries(previousQueries);
+      toast.error(e.response?.data?.message || 'Failed to request query. Please try again.');
     }
   };
 
