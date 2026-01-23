@@ -82,11 +82,12 @@ export default function AdminPage() {
     setSubmitting(true);
     
     // Optimistic UI: Add user immediately
-    const tempUser = {
+    const tempUser: UserData = {
       _id: 'temp-' + Date.now(),
       name: formData.name,
       email: formData.email,
       role: formData.role,
+      createdAt: new Date().toISOString(),
     };
     
     const previousUsers = [...users];
