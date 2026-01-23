@@ -64,13 +64,13 @@ function FeatureCard({ icon: Icon, title, description, color, delay }: {
       viewport={{ once: true }}
       transition={{ ...gentle, delay }}
       whileHover={{ y: -4 }}
-      className="group relative p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-teal-400 dark:hover:border-teal-700 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/5 dark:hover:shadow-teal-500/10"
+      className="group relative p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] hover:border-teal-400 dark:hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/5 dark:hover:shadow-teal-500/10"
     >
       <div className={`w-12 h-12 rounded-xl ${colors[color]} border flex items-center justify-center mb-4`}>
         <Icon className="w-6 h-6" strokeWidth={1.5} />
       </div>
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">{title}</h3>
-      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{description}</p>
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 mb-2">{title}</h3>
+      <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed">{description}</p>
     </motion.div>
   );
 }
@@ -98,7 +98,7 @@ function StatCard({ value, label, delay }: { value: string; label: string; delay
 // Glass Card for Animation
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`relative rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 backdrop-blur-xl overflow-hidden shadow-sm dark:shadow-none ${className}`}>
+    <div className={`relative rounded-xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-sm dark:shadow-none ${className}`}>
       {children}
     </div>
   );
@@ -127,10 +127,10 @@ function TicketAnimation() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ opacity: { duration: 0.6 }, y: { duration: 0.6 } }}
-        className="w-full max-w-4xl bg-white dark:bg-slate-900/80 backdrop-blur-2xl rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col h-120 shadow-2xl dark:shadow-none"
+        className="w-full max-w-4xl bg-white dark:bg-white/[0.03] backdrop-blur-2xl rounded-2xl border border-slate-200 dark:border-white/[0.08] overflow-hidden flex flex-col h-120 shadow-2xl dark:shadow-none"
       >
         {/* macOS Window Header */}
-        <div className="h-11 bg-slate-50 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 flex items-center px-4 justify-between shrink-0">
+        <div className="h-11 bg-slate-50 dark:bg-white/[0.02] backdrop-blur-md border-b border-slate-200 dark:border-white/[0.08] flex items-center px-4 justify-between shrink-0">
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e0443e]/50" />
             <div className="w-3 h-3 rounded-full bg-[#febc2e] border border-[#d89e24]/50" />
@@ -143,7 +143,7 @@ function TicketAnimation() {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 relative bg-slate-50 dark:bg-linear-to-br dark:from-slate-950 dark:to-slate-900 flex flex-col overflow-hidden">
+        <div className="flex-1 relative bg-slate-50 dark:bg-linear-to-br dark:from-[#09090b] dark:to-[#09090b] flex flex-col overflow-hidden">
           <AnimatePresence mode="wait">
             
             {/* STEP 1: Form Submission */}
@@ -158,7 +158,7 @@ function TicketAnimation() {
               >
                 <div className="w-full max-w-md space-y-5">
                   <div className="text-center mb-6">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 1: User Submits Query</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 mb-1">Step 1: User Submits Query</h3>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Participant creates and submits their issue</p>
                   </div>
 
@@ -207,7 +207,7 @@ function TicketAnimation() {
               >
                 <div className="w-full max-w-md">
                   <div className="text-center mb-6">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 2: Query Submitted</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 mb-1">Step 2: Query Submitted</h3>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Waiting for admin to assign to team head</p>
                   </div>
                   <GlassCard className="p-5">
@@ -215,7 +215,7 @@ function TicketAnimation() {
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">A</div>
                         <div>
-                          <p className="text-sm font-medium text-slate-900 dark:text-white">Alice Chen</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Alice Chen</p>
                           <p className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase tracking-wider">Participant</p>
                         </div>
                       </div>
@@ -223,7 +223,7 @@ function TicketAnimation() {
                         <span className="text-[10px] font-medium text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Unassigned</span>
                       </div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">Production API timeout issues</h4>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Experiencing 500ms+ response times in US-East</p>
                   </GlassCard>
                   
@@ -247,7 +247,7 @@ function TicketAnimation() {
               >
                 <div className="w-full max-w-md space-y-4">
                   <div className="text-center mb-4">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 3: Assigned to Team Head</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 mb-1">Step 3: Assigned to Team Head</h3>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Admin assigns query to appropriate team head</p>
                   </div>
                   <GlassCard className="p-5">
@@ -255,7 +255,7 @@ function TicketAnimation() {
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">A</div>
                         <div>
-                          <p className="text-sm font-medium text-slate-900 dark:text-white">Alice Chen</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Alice Chen</p>
                           <p className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase tracking-wider">Participant</p>
                         </div>
                       </div>
@@ -263,7 +263,7 @@ function TicketAnimation() {
                         <span className="text-[10px] font-medium text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Assigned</span>
                       </motion.div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">Production API timeout issues</h4>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Experiencing 500ms+ response times in US-East</p>
                   </GlassCard>
 
@@ -275,7 +275,7 @@ function TicketAnimation() {
                           <p className="text-xs text-rose-600 dark:text-rose-400 font-medium mb-0.5">Mike (Admin) assigned to</p>
                           <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 rounded-md px-2 py-1 border border-slate-200 dark:border-white/10">
                             <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center text-white text-[9px] font-bold">R</div>
-                            <span className="text-xs text-slate-900 dark:text-white font-medium">Robert Kim</span>
+                            <span className="text-xs text-slate-900 dark:text-zinc-100 font-medium">Robert Kim</span>
                             <span className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase">Team Head</span>
                           </div>
                         </div>
@@ -297,7 +297,7 @@ function TicketAnimation() {
               >
                 <div className="w-full max-w-md space-y-4">
                   <div className="text-center mb-4">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 4: Team Head Replies & Resolves</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 mb-1">Step 4: Team Head Replies & Resolves</h3>
                     <p className="text-xs text-slate-500 dark:text-zinc-500">Team head provides solution and marks as resolved</p>
                   </div>
                   <GlassCard className="p-4">
@@ -311,7 +311,7 @@ function TicketAnimation() {
                         <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Resolved</span>
                       </motion.div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">Production API timeout issues</h4>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
                     <p className="text-[10px] text-slate-500 dark:text-zinc-600">Assigned to Robert Kim</p>
                   </GlassCard>
 
@@ -351,16 +351,17 @@ function TicketAnimation() {
 // Main Page Component
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-[#09090b] transition-colors duration-300">
       
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="hidden dark:block absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-[#09090b] to-[#09090b]" />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 dark:bg-teal-500/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[120px] rounded-full" />
       </div>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -371,7 +372,7 @@ export default function Home() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
                 <Image src="/logo.png" alt="Relay" width={40} height={40} className="w-full h-full object-contain" />
               </div>
-              <span className="font-bold text-xl text-slate-900 dark:text-white">Relay</span>
+              <span className="font-bold text-xl text-slate-900 dark:text-zinc-100">Relay</span>
             </Link>
           </motion.div>
 
@@ -407,16 +408,6 @@ export default function Home() {
             
             {/* Left Content */}
             <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...gentle, delay: 0.1 }}
-              >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 dark:bg-teal-950/50 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 text-sm font-medium">
-                  <Sparkles className="w-4 h-4" />
-                  Enterprise Support Platform
-                </span>
-              </motion.div>
 
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -501,7 +492,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
+      <section className="py-20 bg-slate-50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <StatCard value="~12m" label="Avg Response" delay={0} />
@@ -599,7 +590,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-slate-200 dark:border-slate-800">
+      <footer className="py-12 px-6 border-t border-slate-200 dark:border-white/[0.08]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
             <Globe className="w-4 h-4" />

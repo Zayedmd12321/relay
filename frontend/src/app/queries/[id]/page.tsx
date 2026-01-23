@@ -200,17 +200,17 @@ export default function QueryDetailsPage() {
 
   if (loading || !query) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center transition-colors">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#09090b] flex items-center justify-center transition-colors">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-slate-500 dark:text-slate-400">Loading query...</span>
+          <span className="text-slate-500 dark:text-zinc-400">Loading query...</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-200 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-zinc-100 transition-colors">
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -219,7 +219,7 @@ export default function QueryDetailsPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={spring}
           onClick={() => router.push('/dashboard')} 
-          className="group flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 mb-6 transition-colors"
+          className="group flex items-center text-sm text-slate-500 dark:text-zinc-400 hover:text-teal-600 dark:hover:text-teal-400 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Dashboard
@@ -235,15 +235,15 @@ export default function QueryDetailsPage() {
             transition={spring}
             className="lg:col-span-2 space-y-6"
           >
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl dark:shadow-none">
+            <div className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl p-8 shadow-xl dark:shadow-none">
               <div className="flex items-start justify-between mb-6">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{query.title}</h1>
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">{query.title}</h1>
                 <StatusBadge status={query.status} />
               </div>
               
               <div className="prose prose-slate dark:prose-invert max-w-none">
-                <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Description</h3>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{query.description}</p>
+                <h3 className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-3">Description</h3>
+                <p className="text-slate-700 dark:text-zinc-300 leading-relaxed text-sm">{query.description}</p>
               </div>
 
               {/* Answer Section */}
@@ -257,7 +257,7 @@ export default function QueryDetailsPage() {
                   <h3 className="flex items-center text-sm font-semibold text-emerald-700 dark:text-emerald-400 mb-3">
                     <CheckCircle className="w-4 h-4 mr-2" /> Official Resolution
                   </h3>
-                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{query.answer}</p>
+                  <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed">{query.answer}</p>
                   {query.resolvedBy && (
                     <p className="text-xs text-emerald-600 dark:text-emerald-500 mt-4">
                       Resolved by {query.resolvedBy.name} ({query.resolvedBy.role})
@@ -277,7 +277,7 @@ export default function QueryDetailsPage() {
                   <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-3">
                     <AlertCircle className="w-4 h-4 mr-2" /> Dismantled
                   </h3>
-                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{query.dismantledReason}</p>
+                  <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed">{query.dismantledReason}</p>
                 </motion.div>
               )}
             </div>
@@ -289,9 +289,9 @@ export default function QueryDetailsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...spring, delay: 0.1 }}
-                className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl dark:shadow-none"
+                className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-xl dark:shadow-none"
               >
-                <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-teal-500" />
                   {user?.role === 'Admin' ? 'Admin Actions' : 'Team Head Actions'}
                 </h3>
@@ -354,10 +354,10 @@ export default function QueryDetailsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...spring, delay: 0.1 }}
-                className="bg-slate-100 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3"
+                className="bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.08] rounded-xl p-4 flex items-center gap-3"
               >
                 <MessageSquare className="w-5 h-5 text-slate-400" />
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+                <p className="text-sm text-slate-600 dark:text-zinc-400">
                   You can view this query. Resolution will be provided by the assigned Team Head.
                 </p>
               </motion.div>
@@ -371,32 +371,32 @@ export default function QueryDetailsPage() {
             transition={{ ...spring, delay: 0.1 }}
             className="space-y-6"
           >
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl dark:shadow-none">
-              <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Meta Information</h3>
+            <div className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-xl dark:shadow-none">
+              <h3 className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Meta Information</h3>
               
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-slate-100 dark:bg-slate-950 rounded-xl"><User className="w-4 h-4 text-slate-500 dark:text-slate-400" /></div>
+                  <div className="p-2.5 bg-slate-100 dark:bg-white/[0.02] rounded-xl"><User className="w-4 h-4 text-slate-500 dark:text-zinc-400" /></div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-500">Created By</p>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">{query.createdBy.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{query.createdBy.email}</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Created By</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">{query.createdBy.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400">{query.createdBy.email}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-slate-100 dark:bg-slate-950 rounded-xl"><Calendar className="w-4 h-4 text-slate-500 dark:text-slate-400" /></div>
+                  <div className="p-2.5 bg-slate-100 dark:bg-white/[0.02] rounded-xl"><Calendar className="w-4 h-4 text-slate-500 dark:text-zinc-400" /></div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-500">Created On</p>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">{format(new Date(query.createdAt), 'PPP')}</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Created On</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">{format(new Date(query.createdAt), 'PPP')}</p>
                   </div>
                 </div>
 
                 {query.assignedTo && (
-                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-start gap-3">
+                  <div className="pt-4 border-t border-slate-100 dark:border-white/[0.08] flex items-start gap-3">
                     <div className="p-2.5 bg-teal-50 dark:bg-teal-950/30 rounded-xl"><User className="w-4 h-4 text-teal-600 dark:text-teal-400" /></div>
                     <div>
-                      <p className="text-xs text-slate-500 dark:text-slate-500">Assigned To</p>
+                      <p className="text-xs text-slate-500 dark:text-zinc-500">Assigned To</p>
                       <p className="text-sm font-medium text-teal-700 dark:text-teal-300">{query.assignedTo.name}</p>
                       <p className="text-xs text-teal-600 dark:text-teal-400">Team Head</p>
                     </div>
@@ -422,35 +422,35 @@ export default function QueryDetailsPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={spring}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-6"
+              className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl shadow-2xl max-w-lg w-full p-6"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Resolve Query</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-zinc-100">Resolve Query</h2>
                 <button onClick={() => setShowAnswerModal(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                   <X className="w-5 h-5 text-slate-400" />
                 </button>
               </div>
               
-              <div className="mb-4 p-4 bg-slate-50 dark:bg-slate-950 rounded-xl">
-                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Query Title</p>
-                <p className="text-sm font-medium text-slate-900 dark:text-white">{query.title}</p>
+              <div className="mb-4 p-4 bg-slate-50 dark:bg-white/[0.02] rounded-xl">
+                <p className="text-xs text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-1">Query Title</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">{query.title}</p>
               </div>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Your Resolution</label>
+                  <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Your Resolution</label>
                   <textarea 
                     rows={5} 
                     value={answer} 
                     onChange={e => setAnswer(e.target.value)} 
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-500 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
+                    className="w-full bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.08] rounded-xl px-4 py-3 text-slate-900 dark:text-zinc-100 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-500 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-zinc-600" 
                     placeholder="Provide the official resolution for this query..." 
                   />
                 </div>
                 <div className="flex gap-3">
                   <button 
                     onClick={() => setShowAnswerModal(false)} 
-                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-zinc-300 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
                   >
                     Cancel
                   </button>
@@ -484,15 +484,15 @@ export default function QueryDetailsPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={spring}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-6"
+              className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl shadow-2xl max-w-lg w-full p-6"
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-2">
                     <RefreshCw className="w-5 h-5 text-amber-500" />
                     Reassign Query
                   </h2>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Select a new team head for this query</p>
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">Select a new team head for this query</p>
                 </div>
                 <button onClick={() => setShowReassignModal(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                   <X className="w-5 h-5 text-slate-400" />
@@ -506,7 +506,7 @@ export default function QueryDetailsPage() {
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Select New Team Head</label>
+                  <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-3">Select New Team Head</label>
                   <div className="space-y-2 max-h-64 overflow-y-auto">
                     {teamHeads.map((head) => (
                       <label
@@ -514,7 +514,7 @@ export default function QueryDetailsPage() {
                         className={`flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${
                           selectedTeamHead === head._id
                             ? 'border-teal-500 bg-teal-50 dark:bg-teal-950/30'
-                            : 'border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                            : 'border-slate-200 dark:border-white/[0.08] hover:border-teal-300 dark:hover:border-teal-700 hover:bg-slate-50 dark:hover:bg-white/[0.02]'
                         }`}
                       >
                         <input
@@ -527,11 +527,11 @@ export default function QueryDetailsPage() {
                           disabled={query?.assignedTo?._id === head._id}
                         />
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-slate-900 dark:text-white">{head.name}</p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">{head.email}</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">{head.name}</p>
+                          <p className="text-xs text-slate-500 dark:text-zinc-400">{head.email}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xs text-slate-500 dark:text-slate-400">Active Queries</p>
+                          <p className="text-xs text-slate-500 dark:text-zinc-400">Active Queries</p>
                           <p className="text-sm font-bold text-teal-600 dark:text-teal-400">{head.assignedUnansweredCount}</p>
                         </div>
                       </label>
@@ -542,7 +542,7 @@ export default function QueryDetailsPage() {
                 <div className="flex gap-3 pt-4">
                   <button 
                     onClick={() => setShowReassignModal(false)} 
-                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-zinc-300 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
                   >
                     Cancel
                   </button>
@@ -576,10 +576,10 @@ export default function QueryDetailsPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={spring}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-6"
+              className="bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-2xl shadow-2xl max-w-lg w-full p-6"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-zinc-100 flex items-center gap-2">
                   <AlertCircle className="w-5 h-5 text-red-500" />
                   Dismantle Query
                 </h2>
@@ -595,15 +595,15 @@ export default function QueryDetailsPage() {
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Reason for Dismantling <span className="text-red-500">*</span></label>
+                  <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Reason for Dismantling <span className="text-red-500">*</span></label>
                   <textarea 
                     rows={4} 
                     value={dismantleReason} 
                     onChange={e => setDismantleReason(e.target.value)} 
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500 dark:focus:border-red-500 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
+                    className="w-full bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.08] rounded-xl px-4 py-3 text-slate-900 dark:text-zinc-100 focus:ring-2 focus:ring-red-500/50 focus:border-red-500 dark:focus:border-red-500 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-zinc-600" 
                     placeholder="Explain why this query is being dismantled..." 
                   />
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">This reason will be visible to the query creator</p>
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">This reason will be visible to the query creator</p>
                 </div>
                 <div className="flex gap-3">
                   <button 
@@ -611,7 +611,7 @@ export default function QueryDetailsPage() {
                       setShowDismantleModal(false);
                       setDismantleReason('');
                     }} 
-                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                    className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-zinc-300 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
                   >
                     Cancel
                   </button>

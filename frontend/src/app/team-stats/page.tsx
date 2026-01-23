@@ -148,7 +148,7 @@ export default function TeamStatsPage() {
                     {/* Stats Grid */}
                     <div className="space-y-3">
                       {/* Avg Resolution Time */}
-                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.05]">
+                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.08]">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center">
                             <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -161,7 +161,7 @@ export default function TeamStatsPage() {
                       </div>
 
                       {/* Total Resolved */}
-                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.05]">
+                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.08]">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center">
                             <Target className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -174,7 +174,7 @@ export default function TeamStatsPage() {
                       </div>
 
                       {/* Active Assigned */}
-                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.05]">
+                      <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-white/[0.02] rounded-lg border border-slate-200 dark:border-white/[0.08]">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-500/10 flex items-center justify-center">
                             <TrendingUp className="w-4 h-4 text-amber-600 dark:text-amber-400" />

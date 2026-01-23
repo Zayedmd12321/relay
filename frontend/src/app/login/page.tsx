@@ -30,7 +30,7 @@ export default function LoginPage() {
   return (
     <>
       <AuthNavbar />
-      <div className="min-h-screen pt-16 flex items-center justify-center bg-gradient-to-br from-slate-50 via-teal-50/30 to-cyan-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors">
+      <div className="min-h-screen pt-16 flex items-center justify-center bg-gradient-to-br from-slate-50 via-teal-50/30 to-cyan-50/20 dark:from-[#09090b] dark:via-[#09090b] dark:to-[#09090b] relative overflow-hidden transition-colors">
         {/* Background Glow Effect */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 dark:bg-teal-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
@@ -46,14 +46,14 @@ export default function LoginPage() {
           <div className="mb-6 flex justify-center">
             <Logo size="lg" showText={false} href={null} />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Welcome back</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2">Sign in to your Relay account</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-zinc-100">Welcome back</h1>
+          <p className="text-slate-500 dark:text-zinc-400 mt-2">Sign in to your Relay account</p>
         </div>
 
-        <div className="bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl dark:shadow-2xl">
+        <div className="bg-white dark:bg-white/[0.03] backdrop-blur-xl border border-slate-200 dark:border-white/[0.08] rounded-2xl p-8 shadow-xl dark:shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email</label>
+              <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Email</label>
               <input
                 type="email"
                 required
@@ -65,7 +65,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Password</label>
+              <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Password</label>
               <input
                 type="password"
                 required
@@ -88,7 +88,7 @@ export default function LoginPage() {
             </motion.button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-6 text-center text-sm text-slate-500 dark:text-zinc-400">
             Don't have an account?{' '}
             <Link href="/register" className="text-teal-600 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-300 font-medium transition-colors">
               Create account
