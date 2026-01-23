@@ -104,26 +104,29 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// macOS Style Ticket Animation (Original)
+// Enhanced Ticket Animation - Runs Once
 function TicketAnimation() {
   const [step, setStep] = useState(1);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setStep(2), 2500),
-      setTimeout(() => setStep(3), 5000),
-      setTimeout(() => setStep(4), 7500),
-      setTimeout(() => setStep(1), 11000)
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [step]);
+    if (!hasPlayed) {
+      const timers = [
+        setTimeout(() => setStep(2), 3000),
+        setTimeout(() => setStep(3), 6000),
+        setTimeout(() => setStep(4), 9000),
+        setTimeout(() => setHasPlayed(true), 12000)
+      ];
+      return () => timers.forEach(clearTimeout);
+    }
+  }, [hasPlayed]);
 
   return (
     <div className="relative w-full flex justify-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: [0, -6, 0] }}
-        transition={{ opacity: { duration: 0.6 }, y: { duration: 6, repeat: Infinity, ease: "easeInOut" } }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ opacity: { duration: 0.6 }, y: { duration: 0.6 } }}
         className="w-full max-w-4xl bg-white dark:bg-slate-900/80 backdrop-blur-2xl rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col h-120 shadow-2xl dark:shadow-none"
       >
         {/* macOS Window Header */}
@@ -155,8 +158,8 @@ function TicketAnimation() {
               >
                 <div className="w-full max-w-md space-y-5">
                   <div className="text-center mb-6">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Create Query</h3>
-                    <p className="text-xs text-slate-500 dark:text-zinc-500">Participant submits issue</p>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 1: User Submits Query</h3>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Participant creates and submits their issue</p>
                   </div>
 
                   <GlassCard className="p-4">
@@ -203,6 +206,10 @@ function TicketAnimation() {
                 className="flex-1 flex items-center justify-center p-8"
               >
                 <div className="w-full max-w-md">
+                  <div className="text-center mb-6">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 2: Query Submitted</h3>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Waiting for admin to assign to team head</p>
+                  </div>
                   <GlassCard className="p-5">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -239,6 +246,10 @@ function TicketAnimation() {
                 className="flex-1 flex items-center justify-center p-8"
               >
                 <div className="w-full max-w-md space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 3: Assigned to Team Head</h3>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Admin assigns query to appropriate team head</p>
+                  </div>
                   <GlassCard className="p-5">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -285,6 +296,10 @@ function TicketAnimation() {
                 className="flex-1 flex items-center justify-center p-8"
               >
                 <div className="w-full max-w-md space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Step 4: Team Head Replies & Resolves</h3>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Team head provides solution and marks as resolved</p>
+                  </div>
                   <GlassCard className="p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
