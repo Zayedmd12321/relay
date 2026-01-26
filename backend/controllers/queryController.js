@@ -65,17 +65,42 @@ exports.createQuery = async (req, res) => {
 // @access  Private
 exports.getQueries = async (req, res) => {
   try {
-    // All users see all queries now
-    const queries = await Query.find({})
+    const { page = 1, limit = 10, status, search } = req.query;
+    
+    // Build filter
+    const filter = {};
+    if (status && status !== 'ALL') {
+      filter.status = status;
+    }
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    // Calculate pagination
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    // Get total count for pagination
+    const total = await Query.countDocuments(filter);
+    
+    // Get queries with pagination
+    const queries = await Query.find(filter)
       .populate('createdBy', 'name email role')
       .populate('assignedTo', 'name email role')
       .populate('resolvedBy', 'name email role')
       .populate('requestedBy', 'name email role')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
 
     res.status(200).json({
       success: true,
       count: queries.length,
+      total,
+      page: parseInt(page),
+      pages: Math.ceil(total / parseInt(limit)),
       data: { queries },
     });
   } catch (error) {
@@ -104,17 +129,8 @@ exports.getQueryById = async (req, res) => {
       });
     }
 
-    // Check authorization based on role
-    if (req.user.role === 'Participant') {
-      // Participants can only view their own queries
-      if (query.createdBy._id.toString() !== req.user.id) {
-        return res.status(403).json({
-          success: false,
-          message: 'Not authorized to view this query',
-        });
-      }
-    }
-    // Team Heads and Admin can view all queries
+    // All authenticated users can view any query
+    // No role-based restrictions for viewing
 
     res.status(200).json({
       success: true,

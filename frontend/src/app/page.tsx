@@ -7,7 +7,7 @@ import { motion, AnimatePresence, type Transition } from "framer-motion";
 import { 
   ArrowRight, Users, FileText, 
   CheckCircle2, Shield, Zap, BarChart3, Sun, Moon,
-  Check, ChevronRight, Sparkles, Globe
+  Check, ChevronRight, Sparkles, Globe, Mail, Bell
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -173,7 +173,7 @@ function TicketAnimation() {
                         transition={{ duration: 1.2, ease: "linear" }}
                         className="inline-block overflow-hidden whitespace-nowrap"
                       >
-                        Production API timeout issues
+                        Payment Status not changing
                       </motion.span>
                       <motion.span
                         animate={{ opacity: [1, 0] }}
@@ -213,9 +213,9 @@ function TicketAnimation() {
                   <GlassCard className="p-5">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">A</div>
+                        <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">K</div>
                         <div>
-                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Alice Chen</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Khansa (PID: 25ILUK1436)</p>
                           <p className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase tracking-wider">Participant</p>
                         </div>
                       </div>
@@ -223,8 +223,8 @@ function TicketAnimation() {
                         <span className="text-[10px] font-medium text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Unassigned</span>
                       </div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
-                    <p className="text-xs text-slate-500 dark:text-zinc-500">Experiencing 500ms+ response times in US-East</p>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Payment Status not changing</h4>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Participant Id: 25ILUK1436, Payment complete but status is showing not paid.</p>
                   </GlassCard>
                   
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex items-center justify-center gap-2 mt-6 text-xs text-slate-500 dark:text-zinc-500">
@@ -253,9 +253,9 @@ function TicketAnimation() {
                   <GlassCard className="p-5">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">A</div>
+                        <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">K</div>
                         <div>
-                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Alice Chen</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-zinc-100">Khansa (PID: 25ILUK1436)</p>
                           <p className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase tracking-wider">Participant</p>
                         </div>
                       </div>
@@ -263,19 +263,19 @@ function TicketAnimation() {
                         <span className="text-[10px] font-medium text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Assigned</span>
                       </motion.div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
-                    <p className="text-xs text-slate-500 dark:text-zinc-500">Experiencing 500ms+ response times in US-East</p>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Payment Status not changing</h4>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Participant Id: 25ILUK1436, Payment complete but status is showing not paid.</p>
                   </GlassCard>
 
                   <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ ...gentle, delay: 0.2 }}>
                     <GlassCard className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center text-white text-xs font-bold">M</div>
+                        <div className="w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center text-white text-xs font-bold">P</div>
                         <div className="flex-1">
-                          <p className="text-xs text-rose-600 dark:text-rose-400 font-medium mb-0.5">Mike (Admin) assigned to</p>
+                          <p className="text-xs text-rose-600 dark:text-rose-400 font-medium mb-0.5">Admin assigned to</p>
                           <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 rounded-md px-2 py-1 border border-slate-200 dark:border-white/10">
-                            <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center text-white text-[9px] font-bold">R</div>
-                            <span className="text-xs text-slate-900 dark:text-zinc-100 font-medium">Robert Kim</span>
+                            <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center text-white text-[9px] font-bold">Z</div>
+                            <span className="text-xs text-slate-900 dark:text-zinc-100 font-medium">Zayed</span>
                             <span className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase">Team Head</span>
                           </div>
                         </div>
@@ -303,16 +303,16 @@ function TicketAnimation() {
                   <GlassCard className="p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[9px] font-bold">A</div>
-                        <span className="text-xs text-slate-600 dark:text-zinc-400">Alice Chen</span>
+                        <div className="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-white text-[9px] font-bold">K</div>
+                        <span className="text-xs text-slate-600 dark:text-zinc-400">Khansa (PID: 25ILUK1436)</span>
                       </div>
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ ...spring, delay: 0.3 }} className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center gap-1">
                         <Check className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" strokeWidth={2.5} />
                         <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Resolved</span>
                       </motion.div>
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Production API timeout issues</h4>
-                    <p className="text-[10px] text-slate-500 dark:text-zinc-600">Assigned to Robert Kim</p>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-zinc-100 mb-1">Payment Status not changing</h4>
+                    <p className="text-[10px] text-slate-500 dark:text-zinc-600">Assigned to Zayed</p>
                   </GlassCard>
 
                   <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={gentle}>
@@ -320,20 +320,20 @@ function TicketAnimation() {
                       <div className="absolute left-0 top-0 w-1 h-full bg-linear-to-b from-emerald-500 to-emerald-600 rounded-l-xl" />
                       
                       <div className="flex items-start gap-3 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-teal-900/50">R</div>
+                        <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-teal-900/50">Z</div>
                         <div>
-                          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Robert Kim</p>
+                          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Zayed</p>
                           <p className="text-[10px] text-slate-500 dark:text-zinc-600 uppercase tracking-wider">Team Head • Official Resolution</p>
                         </div>
                       </div>
 
                       <p className="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed mb-3">
-                        Issue identified - load balancer misconfiguration. Restarted service and latency dropped to &lt;20ms.
+                        Will look into it, It takes 24hr for payment status to be updated. Thank You for your patience.
                       </p>
 
                       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex items-center gap-1.5 text-[10px] text-emerald-600/70 dark:text-emerald-500/70 uppercase tracking-wider">
                         <CheckCircle2 className="w-3 h-3" strokeWidth={2} />
-                        Email sent to Alice
+                        Email sent to Khansa
                       </motion.div>
                     </GlassCard>
                   </motion.div>
@@ -415,10 +415,10 @@ export default function Home() {
                 transition={{ ...gentle, delay: 0.2 }}
                 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight"
               >
-                <span className="text-slate-900 dark:text-white">Resolve queries</span>
+                <span className="text-slate-900 dark:text-white">Your fest queries,</span>
                 <br />
                 <span className="bg-linear-to-r from-teal-600 via-cyan-600 to-sky-600 dark:from-teal-400 dark:via-cyan-400 dark:to-sky-400 bg-clip-text text-transparent">
-                  10x faster
+                  answered instantly
                 </span>
               </motion.h1>
 
@@ -428,8 +428,8 @@ export default function Home() {
                 transition={{ ...gentle, delay: 0.3 }}
                 className="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed"
               >
-                Streamline your internal support with intelligent routing, real-time tracking, 
-                and role-based workflows. From submission to resolution, all in one place.
+                From registrations to event queries, accommodation to certificates—get all your fest doubts 
+                resolved quickly by our dedicated team heads.
               </motion.p>
 
               <motion.div
@@ -443,7 +443,7 @@ export default function Home() {
                     href="/register"
                     className="group inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white rounded-2xl font-semibold text-lg shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 transition-all"
                   >
-                    Start Free Trial
+                    Submit Your Query
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </motion.div>
@@ -457,24 +457,6 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              {/* Trust Indicators */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex items-center gap-6 pt-4"
-              >
-                <div className="flex -space-x-2">
-                  {['bg-teal-500', 'bg-cyan-500', 'bg-sky-500', 'bg-emerald-500'].map((bg, i) => (
-                    <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-white dark:border-slate-950 flex items-center justify-center text-white text-xs font-bold`}>
-                      {String.fromCharCode(65 + i)}
-                    </div>
-                  ))}
-                </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">
-                  <span className="font-semibold text-slate-900 dark:text-white">2,500+</span> teams trust us
-                </div>
-              </motion.div>
             </div>
 
             {/* Right - Ticket Animation */}
@@ -495,10 +477,10 @@ export default function Home() {
       <section className="py-20 bg-slate-50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatCard value="~12m" label="Avg Response" delay={0} />
-            <StatCard value="98%" label="Resolution Rate" delay={0.1} />
-            <StatCard value="50K+" label="Queries Resolved" delay={0.2} />
-            <StatCard value="24/7" label="Availability" delay={0.3} />
+            <StatCard value="<2h" label="Avg Response" delay={0} />
+            <StatCard value="95%" label="Resolution Rate" delay={0.1} />
+            <StatCard value="500+" label="Queries Handled" delay={0.2} />
+            <StatCard value="3 Days" label="Fest Duration" delay={0.3} />
           </div>
         </div>
       </section>
@@ -514,39 +496,39 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-              Everything you need to manage support
+              Everything participants need in one place
             </h2>
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Built for teams who need reliable, fast, and organized query management
+              Built for college fests to handle participant queries efficiently and transparently
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <FeatureCard
               icon={FileText}
-              title="Structured Forms"
-              description="Capture all details upfront with customizable query templates"
+              title="Easy Submission"
+              description="Submit your fest queries in seconds with a simple form"
               color="teal"
               delay={0}
             />
             <FeatureCard
-              icon={Users}
-              title="Smart Routing"
-              description="Automatically dispatch queries to the right team members"
+              icon={Mail}
+              title="Email Notifications"
+              description="Get instant email updates when your query is assigned and resolved"
               color="cyan"
               delay={0.1}
             />
             <FeatureCard
-              icon={Shield}
-              title="Role-Based Access"
-              description="Fine-grained permissions for participants, admins, and heads"
+              icon={Bell}
+              title="Constant Updates"
+              description="Stay informed with real-time notifications at every step"
               color="amber"
               delay={0.2}
             />
             <FeatureCard
               icon={CheckCircle2}
-              title="Resolution Tracking"
-              description="Track every query from creation to official resolution"
+              title="Resolution in Mail"
+              description="Receive detailed solutions directly in your inbox"
               color="emerald"
               delay={0.3}
             />
@@ -554,40 +536,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={gentle}
-            className="relative p-12 md:p-16 rounded-3xl bg-linear-to-br from-teal-600 to-cyan-600 text-center overflow-hidden"
-          >
-            {/* Decorations */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 blur-3xl rounded-full" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-sky-500/20 blur-3xl rounded-full" />
-            
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to streamline your support?
-              </h2>
-              <p className="text-teal-100 mb-8 max-w-xl mx-auto">
-                Join thousands of teams using Relay to resolve issues faster
-              </p>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} transition={spring}>
-                <Link
-                  href="/register"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-teal-600 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all"
-                >
-                  Get Started Free
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-slate-200 dark:border-white/[0.08]">

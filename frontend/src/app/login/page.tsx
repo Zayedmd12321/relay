@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Mail, Lock } from 'lucide-react';
 import { motion, type Transition } from 'framer-motion';
 import AuthNavbar from '@/components/AuthNavbar';
 import Logo from '@/components/Logo';
@@ -28,75 +28,94 @@ export default function LoginPage() {
   };
 
   return (
-    <>
+    <div className="h-screen w-full flex flex-col bg-slate-50 dark:bg-[#09090b] relative overflow-hidden">
+      {/* Navbar pinned to top */}
       <AuthNavbar />
-      <div className="min-h-screen pt-16 flex items-center justify-center bg-gradient-to-br from-slate-50 via-teal-50/30 to-cyan-50/20 dark:from-[#09090b] dark:via-[#09090b] dark:to-[#09090b] relative overflow-hidden transition-colors">
-        {/* Background Glow Effect */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 dark:bg-teal-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-teal-500/5 to-cyan-500/5 dark:from-teal-500/5 dark:to-cyan-500/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={spring}
-        className="max-w-md w-full relative z-10 px-6"
-      >
-        <div className="text-center mb-8">
-          <div className="mb-6 flex justify-center">
-            <Logo size="lg" showText={false} href={null} />
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-teal-50/50 to-transparent dark:from-teal-900/20 pointer-events-none" />
+
+      {/* Main Content Centered */}
+      <div className="flex-1 flex items-center justify-center p-4 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={spring}
+          className="max-w-md w-full"
+        >
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="mb-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
+              <Logo size="lg" showText={false} href={null} />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Welcome back</h1>
+            <p className="text-slate-500 dark:text-zinc-400 mt-2 text-sm">Sign in to your Relay workspace</p>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-zinc-100">Welcome back</h1>
-          <p className="text-slate-500 dark:text-zinc-400 mt-2">Sign in to your Relay account</p>
-        </div>
 
-        <div className="bg-white dark:bg-white/[0.03] backdrop-blur-xl border border-slate-200 dark:border-white/[0.08] rounded-2xl p-8 shadow-xl dark:shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Email</label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 dark:focus:border-teal-500 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
-                placeholder="name@company.com"
-              />
-            </div>
+          {/* Card */}
+          <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-8 shadow-[0px_4px_24px_rgba(0,0,0,0.06)] dark:shadow-none relative overflow-hidden">
+             {/* Top Accent Line */}
+             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 opacity-80" />
 
-            <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Password</label>
-              <input
-                type="password"
-                required
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 dark:focus:border-teal-500 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
-                placeholder="••••••••"
-              />
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              
+              {/* Email Input */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Email</label>
+                <div className="relative group">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 focus:bg-white dark:focus:bg-zinc-900 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-medium"
+                    placeholder="name@company.com"
+                  />
+                </div>
+              </div>
 
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              transition={spring}
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-linear-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white py-3.5 rounded-xl font-medium transition-all shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
-            </motion.button>
-          </form>
+              {/* Password Input */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider ml-1">Password</label>
+                <div className="relative group">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+                  <input
+                    type="password"
+                    required
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 focus:bg-white dark:focus:bg-zinc-900 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-medium"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
 
-          <p className="mt-6 text-center text-sm text-slate-500 dark:text-zinc-400">
-            Don't have an account?{' '}
-            <Link href="/register" className="text-teal-600 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-300 font-medium transition-colors">
-              Create account
-            </Link>
-          </p>
-        </div>
-      </motion.div>
+              <motion.button
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                transition={spring}
+                type="submit"
+                disabled={isLoading}
+                className="w-full mt-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white py-3.5 rounded-xl font-medium transition-all shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
+              </motion.button>
+            </form>
+
+            <p className="mt-8 text-center text-sm text-slate-500 dark:text-zinc-400">
+              Don't have an account?{' '}
+              <Link href="/register" className="text-teal-600 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-300 font-medium transition-colors">
+                Create account
+              </Link>
+            </p>
+          </div>
+        </motion.div>
       </div>
-    </>
+      
+      {/* If you have a Footer component, place it here. 
+          The flex-col layout will keep it at the bottom. */}
+    </div>
   );
 }

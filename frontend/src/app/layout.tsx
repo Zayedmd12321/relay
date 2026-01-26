@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Relay | Enterprise Support Platform",
-  description: "Professional query management and support ticket system",
+  title: "Relay | Fest Query Management",
+  description: "Streamlined query management system for college fests and events",
 };
 
 export default function RootLayout({
@@ -44,10 +45,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen`}>
         <ThemeProvider>
           <AuthProvider>
             {children}
+            <Footer />
             <Toaster 
               position="top-right"
               toastOptions={{

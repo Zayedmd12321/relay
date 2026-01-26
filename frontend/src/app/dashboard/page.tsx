@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import axiosInstance from '@/lib/axios';
@@ -12,6 +12,23 @@ import { Plus, Search, ChevronRight, UserPlus, FileText, Filter, LayoutGrid, Lis
 import { motion, AnimatePresence, type Transition } from 'framer-motion';
 
 const spring: Transition = { type: "spring", stiffness: 400, damping: 30 };
+
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 interface TeamHead {
   _id: string;
@@ -37,16 +54,36 @@ export default function DashboardPage() {
   const [submitting, setSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // Debounce search query
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
     if (!authLoading && user) fetchQueries();
-  }, [user, authLoading]);
+  }, [user, authLoading, currentPage, itemsPerPage, statusFilter, debouncedSearchQuery]);
 
   const fetchQueries = async () => {
     try {
       setLoading(true);
-      const res = await axiosInstance.get('/queries');
-      if (res.data.success) setQueries(res.data.data.queries);
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: itemsPerPage.toString(),
+        ...(statusFilter !== 'ALL' && { status: statusFilter }),
+        ...(debouncedSearchQuery && { search: debouncedSearchQuery }),
+      });
+      
+      const res = await axiosInstance.get(`/queries?${params.toString()}`);
+      if (res.data.success) {
+        setQueries(res.data.data.queries);
+        setTotalPages(res.data.pages || 1);
+        setTotalCount(res.data.total || 0);
+      }
     } catch (error) {
       toast.error('Failed to load queries');
     } finally {
@@ -261,17 +298,12 @@ export default function DashboardPage() {
     }
   };
 
-  // Filter queries based on search and status
-  const filteredQueries = queries.filter(q => {
-    const matchesSearch = q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         q.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'ALL' || q.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+  // No need for client-side filtering anymore - backend handles it
+  const filteredQueries = queries;
 
   // Stats
   const stats = {
-    total: queries.length,
+    total: totalCount,
     unassigned: queries.filter(q => q.status === 'UNASSIGNED').length,
     assigned: queries.filter(q => q.status === 'ASSIGNED').length,
     resolved: queries.filter(q => q.status === 'RESOLVED').length,
@@ -359,7 +391,10 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2">
               <select 
                 value={statusFilter} 
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="px-4 py-2.5 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-xl text-sm text-slate-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
               >
                 <option value="ALL">All Status</option>
@@ -369,6 +404,21 @@ export default function DashboardPage() {
                 <option value="RESOLVED">Resolved</option>
                 <option value="DISMANTLED">Dismantled</option>
               </select>
+              {(searchQuery || statusFilter !== 'ALL') && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setSearchQuery('');
+                    setStatusFilter('ALL');
+                    setCurrentPage(1);
+                  }}
+                  className="px-3 py-2.5 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-xl text-sm text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-white/[0.05] transition-all"
+                  title="Clear filters"
+                >
+                  <X className="w-4 h-4" />
+                </motion.button>
+              )}
             </div>
           </div>
 
@@ -514,6 +564,81 @@ export default function DashboardPage() {
                 )}
               </tbody>
             </table>
+          </div>
+          
+          {/* Pagination Controls */}
+          <div className="p-4 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-zinc-400">
+              <span>
+                Showing {queries.length > 0 ? ((currentPage - 1) * itemsPerPage + 1) : 0} to {Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} queries
+              </span>
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="px-3 py-1.5 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
+              >
+                <option value={5}>5 per page</option>
+                <option value={10}>10 per page</option>
+                <option value={20}>20 per page</option>
+                <option value={50}>50 per page</option>
+              </select>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-lg text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-white/[0.05] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Previous
+              </motion.button>
+              
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <motion.button
+                      key={pageNum}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`min-w-[2.5rem] px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                        currentPage === pageNum
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                          : 'bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      {pageNum}
+                    </motion.button>
+                  );
+                })}
+              </div>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] rounded-lg text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-white/[0.05] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Next
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       </div>

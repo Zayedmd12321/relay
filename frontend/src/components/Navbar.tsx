@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           
           {/* Brand */}
-          <Logo size="sm" showText={true} href="/dashboard" />
+          <Logo size="sm" showText={true} href="/" />
 
           {/* Center Links */}
           <div className="hidden md:flex items-center gap-1 bg-slate-100/50 dark:bg-white/[0.02] p-1.5 rounded-full border border-slate-200/50 dark:border-white/[0.08]">
